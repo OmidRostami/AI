@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Internet Check</title>
+</head>
+<body>
+  <h1 id="status"></h1>
+  <script>
+    const el = document.getElementById('status');
+
+    function set(on) {
+      el.textContent = on ? 'connected' : 'disconnected';
+      el.style.color = on ? 'green' : 'red';
+    }
+
+    window.addEventListener('online',  () => set(true));
+    window.addEventListener('offline', () => set(false));
+
+    set(navigator.onLine);
+  </script>
+</body>
+</html>
