@@ -3,75 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>AI</title>
-  <script>
-    const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-      <defs>
-        <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stop-color="#6c63ff"/>
-          <stop offset="100%" stop-color="#00c2ff"/>
-        </linearGradient>
-      </defs>
-      <rect width="64" height="64" rx="14" fill="url(#g)"/>
-      <text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle"
-        font-family="system-ui, sans-serif" font-size="28" font-weight="800"
-        letter-spacing="-1" fill="white">AI</text>
-    </svg>`;
-
-    function buildIco(pngBytes) {
-      // ICO format: 6-byte header + 16-byte dir entry + png bytes
-      const buf = new ArrayBuffer(6 + 16 + pngBytes.length);
-      const v = new DataView(buf);
-      // Header
-      v.setUint16(0, 0, true);       // reserved
-      v.setUint16(2, 1, true);       // type: ICO
-      v.setUint16(4, 1, true);       // 1 image
-      // Dir entry
-      v.setUint8(6, 32);             // width  (32px)
-      v.setUint8(7, 32);             // height (32px)
-      v.setUint8(8, 0);              // color palette
-      v.setUint8(9, 0);              // reserved
-      v.setUint16(10, 1, true);      // color planes
-      v.setUint16(12, 32, true);     // bits per pixel
-      v.setUint32(14, pngBytes.length, true); // image size
-      v.setUint32(18, 22, true);     // offset to image data
-      // PNG data
-      new Uint8Array(buf).set(pngBytes, 22);
-      return buf;
-    }
-
-    const svgUrl = 'data:image/svg+xml,' + encodeURIComponent(svg);
-
-    // SVG favicon (modern browsers)
-    document.head.insertAdjacentHTML('beforeend',
-      `<link rel="icon" type="image/svg+xml" href="${svgUrl}">`);
-
-    const img = new Image();
-    img.onload = () => {
-      const canvas = document.createElement('canvas');
-      canvas.width = canvas.height = 32;
-      canvas.getContext('2d').drawImage(img, 0, 0, 32, 32);
-
-      // PNG favicon (iOS Safari, older browsers)
-      const pngUrl = canvas.toDataURL('image/png');
-      document.head.insertAdjacentHTML('beforeend',
-        `<link rel="icon" type="image/png" sizes="32x32" href="${pngUrl}">`);
-      document.head.insertAdjacentHTML('beforeend',
-        `<link rel="apple-touch-icon" href="${pngUrl}">`);
-
-      // ICO favicon (legacy / Safari fallback)
-      canvas.toBlob(blob => {
-        blob.arrayBuffer().then(buf => {
-          const pngBytes = new Uint8Array(buf);
-          const icoBuf = buildIco(pngBytes);
-          const icoBlob = new Blob([icoBuf], { type: 'image/x-icon' });
-          const icoUrl = URL.createObjectURL(icoBlob);
-          document.head.insertAdjacentHTML('beforeend',
-            `<link rel="icon" type="image/x-icon" href="${icoUrl}">`);
-        });
-      }, 'image/png');
-    };
-    img.src = svgUrl;
-  </script>
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
 </head>
 <body></body>
 </html>
